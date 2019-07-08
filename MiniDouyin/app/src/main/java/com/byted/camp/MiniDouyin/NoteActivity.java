@@ -17,9 +17,6 @@ import android.widget.Toast;
 import com.byted.camp.MiniDouyin.db.TodoContract;
 import com.byted.camp.MiniDouyin.db.TodoDbHelper;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class NoteActivity extends AppCompatActivity {
 
     private EditText editText;

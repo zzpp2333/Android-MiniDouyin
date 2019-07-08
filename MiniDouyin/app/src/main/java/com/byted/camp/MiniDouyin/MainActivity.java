@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         initRecyclerView();
         initBtn();
+        fetchFeed();
     }
     private void initBtn(){
         mBtn = findViewById(R.id.btn);
@@ -126,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         refreshBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fetchFeed(view);
+                fetchFeed();
             }
         });
     }
@@ -214,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void fetchFeed(View view) {
+    public void fetchFeed() {
 
         // TODO-C2 (9) Send Request to fetch feed
         // if success, assign data to mFeeds and call mRv.getAdapter().notifyDataSetChanged()
