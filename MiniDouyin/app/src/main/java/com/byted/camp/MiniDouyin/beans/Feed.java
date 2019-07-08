@@ -14,6 +14,7 @@ public class Feed {
     @SerializedName("user_name") private String userName;
     @SerializedName("image_url") private String imageUrl;
     @SerializedName("video_url") private String videoUrl;
+    @SerializedName("createdAt") public String createdAt;
 
     public String getStudentId() {
         return studentId;
@@ -48,11 +49,8 @@ public class Feed {
     }
 
     @Override public String toString() {
-        return "Value{" +
-                "student_id" + studentId +
-                "user_name=" + userName +
-                ", image_url='" + imageUrl +
-                ", video_url='" + videoUrl +
-                '}';
+        String[] str=createdAt.split("T");
+        String time=str[0];
+        return "From "+userName +" "+time;
     }
 }

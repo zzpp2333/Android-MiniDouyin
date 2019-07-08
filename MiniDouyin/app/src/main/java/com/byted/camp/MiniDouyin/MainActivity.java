@@ -74,8 +74,7 @@ public class MainActivity extends AppCompatActivity {
                                     Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 }else{
                     startActivityForResult(
-                            new Intent(MainActivity.this, PostActivity.class),
-                            REQUEST_CODE_POST);
+                            new Intent(MainActivity.this, CameraActivity.class),REQUEST_CODE_POST);
                 }
             }
         });
@@ -99,7 +98,18 @@ public class MainActivity extends AppCompatActivity {
                         chooseVideo();
                     } else if (getString(R.string.post_it).equals(s)) {
                         if (mSelectedVideo != null && mSelectedImage != null) {
-                            postVideo();
+                            mBtn.setEnabled(false);
+                            mBtn.setText(R.string.posting);
+
+                            Log.i("MAINcover",mSelectedImage.toString());
+                            Log.i("MAINvideo",mSelectedVideo.toString());
+                            Intent postIntent = new Intent(MainActivity.this,PostActivity.class);
+                            postIntent.putExtra("cover",mSelectedImage.toString());
+                            postIntent.putExtra("video",mSelectedVideo.toString());
+                            startActivity(postIntent);
+
+                            mBtn.setEnabled(true);
+                            mBtn.setText(R.string.success_try_refresh);
                         } else {
                             throw new IllegalArgumentException("error data uri, mSelectedVideo = " + mSelectedVideo + ", mSelectedImage = " + mSelectedImage);
                         }
@@ -120,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     private void initRecyclerView() {
         recyclerView = findViewById(R.id.videorv);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -145,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
                         //Intent it = new Intent(getApplicationContext(), PlayVideo.class);
                         Intent it = new Intent(getApplicationContext(), VideoActivity.class);
                         it.putExtra("data", mFeeds.get(i).getVideoUrl());
+                        it.putExtra("im",mFeeds.get(i).toString());
                         startActivity(it);
                     }
                 });
@@ -200,54 +212,6 @@ public class MainActivity extends AppCompatActivity {
                 mBtn.setText(R.string.post_it);
             }
         }
-    }
-
-    private MultipartBody.Part getMultipartFromUri(String name, Uri uri) {
-        // if NullPointerException thrown, try to allow storage permission in system settings
-        File f = new File(ResourceUtils.getRealPath(MainActivity.this, uri));
-        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), f);
-        Log.i("rrrrrr",f.getName());
-        return MultipartBody.Part.createFormData(name, f.getName(), requestFile);
-    }
-
-    private void postVideo() {
-        mBtn.setText("POSTING...");
-        mBtn.setEnabled(false);
-
-        // TODO-C2 (6) Send Request to post a video with its cover image
-        // if success, make a text Toast and show
-        Retrofit retrofit=RetrofitManager.get("http://test.androidcamp.bytedance.com/");
-        IMiniDouyinService Pservice=retrofit.create(IMiniDouyinService.class);
-        Log.i("TAG",mSelectedImage.toString());
-        Log.i("TAG",mSelectedVideo.toString());
-
-        final Call<PostVideoResponse> postCall = Pservice.createVideo("16061064","kongfeng",
-                getMultipartFromUri("cover_image",mSelectedImage),getMultipartFromUri("video",mSelectedVideo));
-
-
-        postCall.enqueue(new Callback<PostVideoResponse>() {
-            @Override
-            public void onResponse(Call<PostVideoResponse> call, Response<PostVideoResponse> response) {
-                PostVideoResponse postResponse = response.body();
-                if(response.isSuccessful()){
-                    Log.i("success",postResponse.getUrl());
-                    Toast.makeText(MainActivity.this,R.string.success_try_refresh,Toast.LENGTH_LONG);
-                }else {
-                    Log.i("success",postResponse.getUrl());
-                    Toast.makeText(MainActivity.this, "Failed!", Toast.LENGTH_LONG);
-                }
-                mBtn.setEnabled(true);
-                mBtn.setText(R.string.success_try_refresh);
-            }
-
-            @Override
-            public void onFailure(Call<PostVideoResponse> call, Throwable t) {
-                t.printStackTrace();
-                Toast.makeText(MainActivity.this, "Failed!", Toast.LENGTH_LONG);
-                mBtn.setEnabled(true);
-                mBtn.setText(R.string.select_an_image);
-            }
-        });
     }
 
     public void fetchFeed(View view) {
