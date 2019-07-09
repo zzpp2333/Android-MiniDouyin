@@ -83,8 +83,11 @@ public class Main2Activity extends AppCompatActivity {
                     /*startActivityForResult(
                             new Intent(MainActivity.this, PostActivity.class),
                             REQUEST_CODE_POST);*/
+                    Intent it=new Intent(Main2Activity.this, CameraActivity.class);
+                    it.putExtra("name",name);
+
                     startActivityForResult(
-                            new Intent(Main2Activity.this, CameraActivity.class),REQUEST_CODE_POST);
+                           it,REQUEST_CODE_POST);
                 }
             }
         });
@@ -119,6 +122,8 @@ public class Main2Activity extends AppCompatActivity {
                             Intent postIntent = new Intent(Main2Activity.this,PostActivity.class);
                             postIntent.putExtra("cover",mSelectedImage.toString());
                             postIntent.putExtra("video",mSelectedVideo.toString());
+                            postIntent.putExtra("name",name);
+
                             startActivity(postIntent);
 
                             mBtn.setEnabled(true);

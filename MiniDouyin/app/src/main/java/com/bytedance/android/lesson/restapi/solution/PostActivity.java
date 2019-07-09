@@ -35,11 +35,13 @@ public class PostActivity extends AppCompatActivity {
 
     private Uri mCover;
     private Uri mVideo;
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
+        name=getIntent().getStringExtra("name");
 
         mCover = Uri.parse(getIntent().getStringExtra("cover"));
         mVideo = Uri.parse(getIntent().getStringExtra("video"));
@@ -79,7 +81,7 @@ public class PostActivity extends AppCompatActivity {
         // if success, make a text Toast and show
         Retrofit retrofit = RetrofitManager.get("http://test.androidcamp.bytedance.com/");
         IMiniDouyinService postService = retrofit.create(IMiniDouyinService.class);
-        final Call<PostVideoResponse> postCall = postService.createVideo("16061121","wxxxzhang",
+        final Call<PostVideoResponse> postCall = postService.createVideo("16061121",name,
                 getMultipartFromUri("cover_image",mCover),getMultipartFromUri("video",mVideo));
 
         /*if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED ||

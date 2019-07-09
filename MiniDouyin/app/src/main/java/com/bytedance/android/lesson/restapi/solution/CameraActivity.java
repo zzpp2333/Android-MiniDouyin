@@ -43,6 +43,8 @@ public class CameraActivity  extends AppCompatActivity {
     private Boolean pictureTaken = false;
     private Boolean videoTaken = false;
 
+    private String name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +55,8 @@ public class CameraActivity  extends AppCompatActivity {
         setContentView(R.layout.activity_camera);
         mSurfaceView = findViewById(R.id.img);
         //todo 给SurfaceHolder添加Callback
+
+        name=getIntent().getStringExtra("name");
 
         mCamera = getCamera(CAMERA_TYPE);
 
@@ -155,6 +159,7 @@ public class CameraActivity  extends AppCompatActivity {
                     Intent postIntent = new Intent(CameraActivity.this,PostActivity.class);
                     postIntent.putExtra("cover",mCover.toString());
                     postIntent.putExtra("video",mVideo.toString());
+                    postIntent.putExtra("name",name);
                     startActivity(postIntent);
                     pictureTaken = videoTaken = false;
                 }else{
