@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         Retrofit retrofit= RetrofitManager.get("http://114.115.172.245:8008/");
         UserService getService =  retrofit.create(UserService.class);
         final Call<User> UserCall = getService.login(loginName,loginPwd);
-        boolean tag=false;
+        //boolean tag=false;
 
          UserCall.enqueue(new Callback<User>() {
             @Override
@@ -113,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
 
                     Toast.makeText(MainActivity.this,
                             user.getmsg(), Toast.LENGTH_SHORT).show();
+                    Intent it1=new Intent(MainActivity.this,RegisterActivity.class);
+                    startActivity(it1);
 
                 }
 

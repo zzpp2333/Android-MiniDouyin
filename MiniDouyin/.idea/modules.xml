@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/MiniDouyin.iml" filepath="$PROJECT_DIR$/MiniDouyin.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/random_cats_and_mini_douyin.iml" filepath="$PROJECT_DIR$/random_cats_and_mini_douyin.iml" />
     </modules>
   </component>
 </project>
