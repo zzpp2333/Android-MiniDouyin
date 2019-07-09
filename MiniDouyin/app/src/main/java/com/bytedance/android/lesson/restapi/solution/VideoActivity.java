@@ -20,12 +20,14 @@ public class VideoActivity extends AppCompatActivity {
     private ImageView comment;
     private String im;
     private String data;
+    private String name;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
         setTitle("VideoView");
+        name=getIntent().getStringExtra("name");
 
         videoView = findViewById(R.id.videoView);
         //videoView.setVideoPath(getVideoPath(R.raw.yuminhong));
@@ -71,7 +73,7 @@ public class VideoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(getApplicationContext(),CommentNet.class);
-                //intent.putExtra("vname",im);
+                intent.putExtra("name",name);
                 intent.putExtra("url",data);
                 startActivity(intent);
             }

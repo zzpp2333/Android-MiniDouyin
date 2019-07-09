@@ -18,6 +18,9 @@ import com.bytedance.android.lesson.restapi.solution.bean.CommentResponse;
 import com.bytedance.android.lesson.restapi.solution.newtork.CommentService;
 import com.bytedance.android.lesson.restapi.solution.newtork.RetrofitManager;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,12 +33,14 @@ public class NewNoteActivity extends AppCompatActivity {
     //private static int count=1;
     private String url;
     private boolean tag;
+    private String name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
         setTitle(R.string.take_a_note);
         url=getIntent().getStringExtra("url");
+        name=getIntent().getStringExtra("name");
 
         editText = findViewById(R.id.edit_text);
         editText.setFocusable(true);
@@ -84,7 +89,7 @@ public class NewNoteActivity extends AppCompatActivity {
         //Date date=new Date(System.currentTimeMillis());
         //String str=String.valueOf(date);
 
-        final Call<CommentResponse> postCall = Cservice.addComment("kongfeng", content, String.valueOf(System.currentTimeMillis()), url);
+        final Call<CommentResponse> postCall = Cservice.addComment(name, content, String.valueOf(System.currentTimeMillis()), url);
         //count=count+1;
 
         postCall.enqueue(new Callback<CommentResponse>() {

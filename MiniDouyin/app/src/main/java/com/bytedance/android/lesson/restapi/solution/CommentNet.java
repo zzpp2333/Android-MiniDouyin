@@ -17,6 +17,7 @@ import android.view.View;
 
 import com.bytedance.android.lesson.restapi.solution.bean.Comment;
 import com.bytedance.android.lesson.restapi.solution.bean.CommentResponse;
+import com.bytedance.android.lesson.restapi.solution.debug.DebugActivity;
 import com.bytedance.android.lesson.restapi.solution.newtork.CommentService;
 import com.bytedance.android.lesson.restapi.solution.newtork.RetrofitManager;
 import com.bytedance.android.lesson.restapi.solution.ui.CommentListAdapter;
@@ -37,20 +38,24 @@ public class CommentNet extends AppCompatActivity {
     private CommentListAdapter commentAdapter;
     private List<Comment> mComment = new LinkedList<>();
     private String url;
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         //final String vname=getIntent().getStringExtra("vname");
         url=getIntent().getStringExtra("url");
+        name=getIntent().getStringExtra("name");
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(CommentNet.this, NewNoteActivity.class);
-                //intent.putExtra("vname",vname);
+                intent.putExtra("name",name);
                 intent.putExtra("url",url);
                 startActivityForResult(intent, REQUEST_CODE_ADD);
             }
@@ -98,6 +103,22 @@ public class CommentNet extends AppCompatActivity {
         return true;
     }
     */
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_settings:
+                return true;
+            case R.id.action_debug:
+                startActivity(new Intent(this, DebugActivity.class));
+                return true;
+            default:
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
